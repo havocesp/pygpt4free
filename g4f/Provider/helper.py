@@ -3,7 +3,6 @@ from __future__ import annotations
 import sys
 import asyncio
 import webbrowser
-import random
 import string
 import secrets
 import os
@@ -119,7 +118,7 @@ def format_prompt(messages: Messages, add_special_tokens=False) -> str:
 
 def get_random_string(length: int = 10) -> str:
     return ''.join(
-        random.choice(string.ascii_lowercase + string.digits)
+        secrets.SystemRandom().choice(string.ascii_lowercase + string.digits)
         for _ in range(length)
     )
 

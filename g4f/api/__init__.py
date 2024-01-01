@@ -9,11 +9,11 @@ from ..                 import BaseProvider
 
 import time
 import json
-import random
 import string
 import uvicorn
 import nest_asyncio
 import g4f
+import secrets
 
 class Api:
     def __init__(self, engine: g4f, debug: bool = True, sentry: bool = False,
@@ -97,7 +97,7 @@ class Api:
             except Exception as e:
                 logging.exception(e)
                 return Response(content=json.dumps({"error": "An error occurred while generating the response."}, indent=4), media_type="application/json")
-            completion_id = ''.join(random.choices(string.ascii_letters + string.digits, k=28))
+            completion_id = ''.join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=28))
             completion_timestamp = int(time.time())
 
             if not stream:
