@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import re, html, json, string, random
+import re, html, json, string
 from aiohttp import ClientSession
 
 from ..typing import Messages, AsyncResult
 from .base_provider import AsyncGeneratorProvider
+import secrets
 
 
 class ChatgptAi(AsyncGeneratorProvider):
@@ -56,7 +57,7 @@ class ChatgptAi(AsyncGeneratorProvider):
                 "botId": cls._system["botId"],
                 "customId": cls._system["customId"],
                 "session": cls._system["sessionId"],
-                "chatId": "".join(random.choices(f"{string.ascii_lowercase}{string.digits}", k=11)),
+                "chatId": "".join(secrets.SystemRandom().choices(f"{string.ascii_lowercase}{string.digits}", k=11)),
                 "contextId": cls._system["contextId"],
                 "messages": messages,
                 "newMessage": messages[-1]["content"],

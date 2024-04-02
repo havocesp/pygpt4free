@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import time, hashlib, random
+import time, hashlib
 
 from ..typing import AsyncResult, Messages
 from ..requests import StreamSession
 from .base_provider import AsyncGeneratorProvider
+import secrets
 
 domains = [
     'https://s.aifree.site'
@@ -38,7 +39,7 @@ class FreeGpt(AsyncGeneratorProvider):
                 "pass": None,
                 "sign": generate_signature(timestamp, prompt)
             }
-            url = random.choice(domains)
+            url = secrets.SystemRandom().choice(domains)
             async with session.post(f"{url}/api/generate", json=data) as response:
                 response.raise_for_status()
                 async for chunk in response.iter_content():

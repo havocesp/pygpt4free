@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-import random, json
+import json
 from datetime import datetime
 from ...requests import StreamSession
 
 from ...typing import AsyncGenerator
 from ..base_provider import AsyncGeneratorProvider
+import secrets
 
 
 class MikuChat(AsyncGeneratorProvider):
@@ -91,7 +92,7 @@ def k(e: str, t: int):
     return i & 0xFFFFFFFF
 
 def get_fingerprint() -> str:
-    return str(k(str(int(random.random() * 100000)), 256))
+    return str(k(str(int(secrets.SystemRandom().random() * 100000)), 256))
 
 def get_datetime() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")

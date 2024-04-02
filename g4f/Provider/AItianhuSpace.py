@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import time
-import random
 
 from ..typing import CreateResult, Messages
 from .base_provider import BaseProvider
 from .helper import format_prompt, get_random_string
 from ..webdriver import WebDriver, WebDriverSession
 from .. import debug
+import secrets
 
 class AItianhuSpace(BaseProvider):
     url = "https://chat3.aiyunos.top/"
@@ -33,7 +33,7 @@ class AItianhuSpace(BaseProvider):
             model = "gpt-3.5-turbo"
         if not domain:
             rand = get_random_string(6)
-            domain = random.choice(cls._domains)
+            domain = secrets.SystemRandom().choice(cls._domains)
             domain = f"{rand}.{domain}"
         if debug.logging:
             print(f"AItianhuSpace | using domain: {domain}")

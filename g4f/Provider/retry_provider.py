@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import asyncio
-import random
 from typing import List, Type, Dict
 from ..typing import CreateResult, Messages
 from .base_provider import BaseProvider, AsyncProvider
 from .. import debug
 from ..errors import RetryProviderError, RetryNoProviderError
+import secrets
 
 
 class RetryProvider(AsyncProvider):
@@ -34,7 +34,7 @@ class RetryProvider(AsyncProvider):
         else:
             providers = self.providers
         if self.shuffle:
-            random.shuffle(providers)
+            secrets.SystemRandom().shuffle(providers)
 
         self.exceptions: Dict[str, Exception] = {}
         started: bool = False
@@ -67,7 +67,7 @@ class RetryProvider(AsyncProvider):
     ) -> str:
         providers = self.providers
         if self.shuffle:
-            random.shuffle(providers)
+            secrets.SystemRandom().shuffle(providers)
         
         self.exceptions: Dict[str, Exception] = {}
         for provider in providers:
