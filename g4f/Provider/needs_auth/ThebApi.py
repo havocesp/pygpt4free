@@ -68,8 +68,8 @@ class ThebApi(BaseProvider):
             "https://api.theb.ai/v1/chat/completions",
             headers=headers,
             json=data,
-            proxies={"https": proxy}
-        )
+            proxies={"https": proxy}, 
+        timeout=60)
         try:
             response.raise_for_status()
             yield response.json()["choices"][0]["message"]["content"]
