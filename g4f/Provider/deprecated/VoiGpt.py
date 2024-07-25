@@ -4,7 +4,7 @@ import json
 import requests
 from .base_provider import BaseProvider
 from ..typing import Messages, CreateResult
-from .helper import get_cookies
+from security import safe_requests
 
 
 
@@ -61,7 +61,7 @@ class VoiGpt(BaseProvider):
                 "upgrade-insecure-requests": "1",
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
             }
-            req_response = requests.get(cls.url, headers=headers)
+            req_response = safe_requests.get(cls.url, headers=headers)
             access_token = cls._access_token = req_response.cookies.get("csrftoken")
 
         headers = {
