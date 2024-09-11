@@ -30,9 +30,9 @@ def get_latest_version() -> str:
         url = "https://registry.hub.docker.com/v2/repositories/"
         url += "hlohaus789/g4f"
         url += "/tags?page_size=2&ordering=last_updated"
-        response = requests.get(url).json()
+        response = requests.get(url, timeout=60).json()
         return response["results"][1]["name"]
-    response = requests.get("https://pypi.org/pypi/g4f/json").json()
+    response = requests.get("https://pypi.org/pypi/g4f/json", timeout=60).json()
     return response["info"]["version"]
 
 def check_pypi_version() -> None:

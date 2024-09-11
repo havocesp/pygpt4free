@@ -41,7 +41,7 @@ class DeepInfra(BaseProvider):
             'stream'  : True}, separators=(',', ':'))
 
         response = requests.post('https://api.deepinfra.com/v1/openai/chat/completions', 
-                                headers=headers, data=json_data, stream=True)
+                                headers=headers, data=json_data, stream=True, timeout=60)
 
         response.raise_for_status()
         first = True
