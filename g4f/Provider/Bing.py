@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import string
-import random
 import json
 import os
 import re
@@ -15,6 +14,7 @@ from PIL import Image
 from aiohttp        import ClientSession, ClientTimeout
 from ..typing       import AsyncResult, Messages
 from .base_provider import AsyncGeneratorProvider
+import secrets
 
 class Tones():
     creative = "Creative"
@@ -173,7 +173,7 @@ async def delete_conversation(session: ClientSession, conversation: Conversation
 
 class Defaults:
     delimiter = "\x1e"
-    ip_address = f"13.{random.randint(104, 107)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
+    ip_address = f"13.{secrets.SystemRandom().randint(104, 107)}.{secrets.SystemRandom().randint(0, 255)}.{secrets.SystemRandom().randint(0, 255)}"
 
     allowedMessageTypes = [
         "ActionRequest",
@@ -284,7 +284,7 @@ def build_image_upload_api_payload(image_bin: str, conversation: Conversation, t
         'imageInfo': {},
         'knowledgeRequest': payload
     }
-    boundary="----WebKitFormBoundary" + ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+    boundary="----WebKitFormBoundary" + ''.join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=16))
     data = (
         f'--{boundary}'
         + '\r\nContent-Disposition: form-data; name="knowledgeRequest"\r\n\r\n'
