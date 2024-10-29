@@ -5,6 +5,7 @@ import json, base64, requests, execjs, random, uuid
 from ..typing       import Messages, TypedDict, CreateResult, Any
 from .base_provider import BaseProvider
 from ..debug        import logging
+from security import safe_requests
 
 class Vercel(BaseProvider):
     url = 'https://sdk.vercel.ai'
@@ -86,7 +87,7 @@ def get_anti_bot_token() -> str:
         'user-agent': f'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.{random.randint(99, 999)}.{random.randint(99, 999)} Safari/537.36',
     }
 
-    response = requests.get('https://sdk.vercel.ai/openai.jpeg', 
+    response = safe_requests.get('https://sdk.vercel.ai/openai.jpeg', 
                             headers=headers).text
 
     raw_data = json.loads(base64.b64decode(response, 
