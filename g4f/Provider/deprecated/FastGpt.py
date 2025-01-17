@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import json
-import random
 from abc import ABC, abstractmethod
 
 import requests
 
 from ...typing import Any, CreateResult
 from ..base_provider import BaseProvider
+import secrets
 
 
 class FastGpt(BaseProvider):
@@ -56,7 +56,7 @@ class FastGpt(BaseProvider):
             'top_p'             : kwargs.get('top_p', 1),
         }
 
-        subdomain = random.choice([
+        subdomain = secrets.choice([
             'jdaen979ew',
             'chat9'
         ])

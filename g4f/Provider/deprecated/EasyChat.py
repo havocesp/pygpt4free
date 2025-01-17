@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import json
-import random
 
 import requests
 
 from ...typing import Any, CreateResult
 from ..base_provider import BaseProvider
+import secrets
 
 
 class EasyChat(BaseProvider):
@@ -31,7 +31,7 @@ class EasyChat(BaseProvider):
             "https://gxos1h1ddt.fastgpt.me"
         ]
 
-        server  = active_servers[kwargs.get("active_server", random.randint(0, 5))]
+        server  = active_servers[kwargs.get("active_server", secrets.SystemRandom().randint(0, 5))]
         headers = {
             "authority"         : f"{server}".replace("https://", ""),
             "accept"            : "text/event-stream",
