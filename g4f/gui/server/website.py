@@ -1,6 +1,8 @@
-from flask import render_template, send_file, redirect
+from flask import render_template, redirect
 from time import time
 from os import urandom
+import flask
+from pathlib import Path
 
 class Website:
     def __init__(self, app) -> None:
@@ -35,6 +37,6 @@ class Website:
 
     def _assets(self, folder: str, file: str):
         try:
-            return send_file(f"./../client/{folder}/{file}", as_attachment=False)
+            return flask.send_from_directory((p := Path(f"./../client/{folder}/{file}")).parent, p.name, as_attachment=False)
         except:
             return "File not found", 404
