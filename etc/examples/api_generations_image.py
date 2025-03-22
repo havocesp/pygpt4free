@@ -7,5 +7,5 @@ body = {
     #"response_format": "url",
     #"response_format": "b64_json",
 }
-data = requests.post(url, json=body, stream=True).json()
+data = requests.post(url, json=body, stream=True, timeout=60).json()
 print(data)

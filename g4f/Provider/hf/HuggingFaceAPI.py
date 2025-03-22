@@ -39,7 +39,7 @@ class HuggingFaceAPI(OpenaiTemplate):
     def get_models(cls, **kwargs) -> list[str]:
         if not cls.models:
             url = "https://huggingface.co/api/models?inference=warm&&expand[]=inferenceProviderMapping"
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             if response.ok: 
                 cls.models = [
                     model["id"]
