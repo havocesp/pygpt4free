@@ -49,7 +49,7 @@ class Anthropic(OpenaiAPI):
                 "Content-Type": "application/json",
                 "x-api-key": api_key,
                 "anthropic-version": "2023-06-01"
-            })
+            }, timeout=60)
             raise_for_status(response)
             models = response.json()
             cls.models = [model["id"] for model in models["data"]]

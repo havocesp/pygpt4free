@@ -41,7 +41,7 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
         if not cls.models:
             try:
                 url = f"{cls.api_base if not api_base else api_base}/models"
-                response = requests.get(url, params={"key": api_key})
+                response = requests.get(url, params={"key": api_key}, timeout=60)
                 raise_for_status(response)
                 data = response.json()
                 cls.models = [

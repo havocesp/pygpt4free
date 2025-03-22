@@ -33,7 +33,7 @@ class OpenaiTemplate(AsyncGeneratorProvider, ProviderModelMixin, RaiseErrorMixin
                     api_key = cls.api_key
                 if api_key is not None:
                     headers["authorization"] = f"Bearer {api_key}"
-                response = requests.get(f"{api_base}/models", headers=headers, verify=cls.ssl)
+                response = requests.get(f"{api_base}/models", headers=headers, verify=cls.ssl, timeout=60)
                 raise_for_status(response)
                 data = response.json()
                 data = data.get("data") if isinstance(data, dict) else data
