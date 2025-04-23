@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import json
-import random
 import re
 import base64
 import asyncio
@@ -11,6 +10,7 @@ import time
 from urllib.parse import quote_plus, unquote_plus
 from pathlib import Path
 from aiohttp import ClientSession, BaseConnector
+import secrets
 
 try:
     import nodriver
@@ -195,7 +195,7 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                 params = {
                     'bl': REQUEST_BL_PARAM,
                     'hl': language,
-                    '_reqid': random.randint(1111, 9999),
+                    '_reqid': secrets.SystemRandom().randint(1111, 9999),
                     'rt': 'c',
                     "f.sid": cls._sid,
                 }
@@ -314,7 +314,7 @@ class Gemini(AsyncGeneratorProvider, ProviderModelMixin):
                     "bl": "boq_assistant-bard-web-server_20241119.00_p1",
                     "f.sid": "" if cls._sid is None else cls._sid,
                     "hl": "de",
-                    "_reqid": random.randint(1111, 9999),
+                    "_reqid": secrets.SystemRandom().randint(1111, 9999),
                     "rt": "c"
                 },
             ) as response:

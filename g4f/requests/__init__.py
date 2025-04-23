@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import os
 import time
-import random
 from urllib.parse import urlparse
 from typing import Iterator
 from http.cookies import Morsel
 from pathlib import Path
 import asyncio
+import secrets
+
 try:
     from curl_cffi.requests import Session, Response
     from .curl_cffi import StreamResponse, StreamSession, FormData
@@ -155,7 +156,7 @@ async def get_nodriver(
                 browser_executable_path = None
     lock_file = Path(get_cookies_dir()) / ".nodriver_is_open"
     # Implement a short delay (milliseconds) to prevent race conditions.
-    await asyncio.sleep(0.1 * random.randint(0, 50))
+    await asyncio.sleep(0.1 * secrets.SystemRandom().randint(0, 50))
     if lock_file.exists():
         opend_at = float(lock_file.read_text())
         time_open = time.time() - opend_at

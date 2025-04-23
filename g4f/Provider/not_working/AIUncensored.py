@@ -5,13 +5,13 @@ import time
 import hmac
 import hashlib
 import json
-import random
 
 from ...typing import AsyncResult, Messages
 from ...requests.raise_for_status import raise_for_status
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import format_prompt
 from ...providers.response import FinishReason
+import secrets
 
 class AIUncensored(AsyncGeneratorProvider, ProviderModelMixin):
     url = "https://www.aiuncensored.info/ai_uncensored"
@@ -45,7 +45,7 @@ class AIUncensored(AsyncGeneratorProvider, ProviderModelMixin):
             "https://llm-server-nov24-qv2w.onrender.com", 
             "https://llm-server-nov24.onrender.com"
         ]
-        return random.choice(servers)
+        return secrets.choice(servers)
 
     @classmethod
     async def create_async_generator(

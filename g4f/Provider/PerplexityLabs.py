@@ -1,6 +1,4 @@
 from __future__ import annotations
-
-import random
 import json
 
 from ..typing import AsyncResult, Messages
@@ -8,6 +6,7 @@ from ..requests import StreamSession, raise_for_status
 from ..errors import ResponseError
 from ..providers.response import FinishReason, Sources
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
+import secrets
 
 API_URL = "https://www.perplexity.ai/socket.io/"
 WS_URL = "wss://www.perplexity.ai/socket.io/"
@@ -38,7 +37,7 @@ class PerplexityLabs(AsyncGeneratorProvider, ProviderModelMixin):
             "Referer": f"{cls.url}/",
         }
         async with StreamSession(headers=headers, proxy=proxy, impersonate="chrome") as session:
-            t = format(random.getrandbits(32), "08x")
+            t = format(secrets.SystemRandom().getrandbits(32), "08x")
             async with session.get(
                 f"{API_URL}?EIO=4&transport=polling&t={t}"
             ) as response:

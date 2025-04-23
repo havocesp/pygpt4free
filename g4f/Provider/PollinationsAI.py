@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import random
 import requests
 from urllib.parse import quote_plus
 from typing import Optional
@@ -16,6 +15,7 @@ from ..requests.raise_for_status import raise_for_status
 from ..requests.aiohttp import get_connector
 from ..providers.response import ImageResponse, ImagePreview, FinishReason, Usage, Audio, ToolCalls
 from .. import debug
+import secrets
 
 DEFAULT_HEADERS = {
     "accept": "*/*",
@@ -219,7 +219,7 @@ class PollinationsAI(AsyncGeneratorProvider, ProviderModelMixin):
         safe: bool
     ) -> AsyncResult:
         if not cache and seed is None:
-            seed = random.randint(9999, 99999999)
+            seed = secrets.SystemRandom().randint(9999, 99999999)
         params = {
             "seed": str(seed) if seed is not None else None,
             "width": str(width),
@@ -259,7 +259,7 @@ class PollinationsAI(AsyncGeneratorProvider, ProviderModelMixin):
         **kwargs
     ) -> AsyncResult:
         if not cache and seed is None:
-            seed = random.randint(9999, 99999999)
+            seed = secrets.SystemRandom().randint(9999, 99999999)
         json_mode = False
         if response_format and response_format.get("type") == "json_object":
             json_mode = True

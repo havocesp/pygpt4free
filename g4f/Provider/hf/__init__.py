@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import random
-
 from ...typing import AsyncResult, Messages
 from ...providers.response import ImageResponse
 from ...errors import ModelNotSupportedError, MissingAuthError
@@ -11,6 +9,7 @@ from .HuggingFaceAPI import HuggingFaceAPI
 from .HuggingFaceInference import HuggingFaceInference
 from .models import model_aliases, vision_models, default_vision_model
 from ... import debug
+import secrets
 
 class HuggingFace(AsyncGeneratorProvider, ProviderModelMixin):
     url = "https://huggingface.co"
@@ -36,7 +35,7 @@ class HuggingFace(AsyncGeneratorProvider, ProviderModelMixin):
         messages: Messages,
         **kwargs
     ) -> AsyncResult:
-        if "tools" not in kwargs and "images" not in kwargs and "deepseek" in model or random.random() >= 0.5:
+        if "tools" not in kwargs and "images" not in kwargs and "deepseek" in model or secrets.SystemRandom().random() >= 0.5:
             try:
                 is_started = False
                 async for chunk in HuggingFaceInference.create_async_generator(model, messages, **kwargs):

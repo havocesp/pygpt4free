@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import time
 import json
-import random
 from pathlib import Path
 from aiohttp import ClientSession
 import asyncio
@@ -14,6 +13,7 @@ from ..errors import ResponseError
 from ..cookies import get_cookies_dir
 from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from .helper import format_image_prompt
+import secrets
 
 class ARTA(AsyncGeneratorProvider, ProviderModelMixin):
     url = "https://img-gen-prod.ai-arta.com"
@@ -144,7 +144,7 @@ class ARTA(AsyncGeneratorProvider, ProviderModelMixin):
 
         # Generate a random seed if not provided
         if seed is None:
-            seed = random.randint(9999, 99999999)  # Common range for random seeds
+            seed = secrets.SystemRandom().randint(9999, 99999999)  # Common range for random seeds
 
         # Step 1: Get Authentication Token
         auth_data = await cls.read_and_refresh_token(proxy)

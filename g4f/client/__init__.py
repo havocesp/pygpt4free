@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import time
-import random
 import string
 import asyncio
 import aiohttp
@@ -24,6 +23,7 @@ from .types import IterResponse, ImageProvider, Client as BaseClient
 from .service import get_model_and_provider, convert_to_provider
 from .helper import find_stop, filter_json, filter_none, safe_aclose
 from .. import debug
+import secrets
 
 ChatCompletionResponseType = Iterator[Union[ChatCompletion, ChatCompletionChunk, BaseConversation]]
 AsyncChatCompletionResponseType = AsyncIterator[Union[ChatCompletion, ChatCompletionChunk, BaseConversation]]
@@ -50,7 +50,7 @@ def iter_response(
     tool_calls = None
     usage = None
     provider: ProviderInfo = None
-    completion_id = ''.join(random.choices(string.ascii_letters + string.digits, k=28))
+    completion_id = ''.join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=28))
     idx = 0
 
     if hasattr(response, '__aiter__'):
@@ -157,7 +157,7 @@ async def async_iter_response(
 ) -> AsyncChatCompletionResponseType:
     content = ""
     finish_reason = None
-    completion_id = ''.join(random.choices(string.ascii_letters + string.digits, k=28))
+    completion_id = ''.join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=28))
     idx = 0
     tool_calls = None
     usage = None

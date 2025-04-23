@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from aiohttp import ClientSession
 import time
-import random
 import asyncio
 
 from ...typing import AsyncResult, Messages
@@ -11,6 +10,7 @@ from ..helper import format_image_prompt, get_random_string
 from .Janus_Pro_7B import Janus_Pro_7B, get_zerogpu_token
 from .BlackForestLabsFlux1Dev import BlackForestLabsFlux1Dev
 from .raise_for_status import raise_for_status
+import secrets
 
 class FluxDev(BlackForestLabsFlux1Dev):
     url = "https://roxky-flux-1-dev.hf.space"
@@ -80,7 +80,7 @@ class G4F(Janus_Pro_7B):
         if prompt is None:
             prompt = format_image_prompt(messages)
         if seed is None:
-            seed = random.randint(9999, 2**32 - 1)
+            seed = secrets.SystemRandom().randint(9999, 2**32 - 1)
 
         payload = {
             "data": [
