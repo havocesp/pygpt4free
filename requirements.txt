@@ -20,3 +20,4 @@ nodriver
 python-multipart
 pypdf2
 python-docx
+security==1.3.1

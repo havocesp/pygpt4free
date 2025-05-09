@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 import re
 import os
-import requests
 import base64
 from typing import AsyncIterator
+from security import safe_requests
 
 try:
     from curl_cffi.requests import Session
@@ -46,7 +46,7 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
     def get_models(cls):
         if not cls.models:
             try:
-                text = requests.get(cls.url).text
+                text = safe_requests.get(cls.url).text
                 text = re.search(r'models:(\[.+?\]),oldModels:', text).group(1)
                 text = re.sub(r',parameters:{[^}]+?}', '', text)
                 text = text.replace('void 0', 'null')

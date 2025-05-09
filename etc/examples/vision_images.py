@@ -1,15 +1,15 @@
 import g4f
-import requests
 
 from g4f.client import Client
 from g4f.Provider.Blackbox import Blackbox
+from security import safe_requests
 
 client = Client(
     provider=Blackbox
 )
 
 # Processing remote image
-remote_image = requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
+remote_image = safe_requests.get("https://raw.githubusercontent.com/xtekky/gpt4free/refs/heads/main/docs/images/cat.jpeg", stream=True).content
 response_remote = client.chat.completions.create(
     model=g4f.models.default,
     messages=[
