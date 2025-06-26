@@ -82,7 +82,7 @@ class PollinationsAI(AsyncGeneratorProvider, ProviderModelMixin):
         if not cls._models_loaded:
             try:
                 # Update of image models
-                image_response = requests.get("https://image.pollinations.ai/models")
+                image_response = requests.get("https://image.pollinations.ai/models", timeout=60)
                 if image_response.ok:
                     new_image_models = image_response.json()
                 else:
@@ -97,7 +97,7 @@ class PollinationsAI(AsyncGeneratorProvider, ProviderModelMixin):
                 cls.image_models = list(dict.fromkeys(all_image_models))
 
                 # Update of text models
-                text_response = requests.get("https://text.pollinations.ai/models")
+                text_response = requests.get("https://text.pollinations.ai/models", timeout=60)
                 text_response.raise_for_status()
                 models = text_response.json()
                 original_text_models = [

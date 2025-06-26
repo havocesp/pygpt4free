@@ -75,8 +75,8 @@ class Airforce(AsyncGeneratorProvider, ProviderModelMixin):
                     f"{cls.url}/imagine2/models",
                     headers={
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-                    }
-                )
+                    }, 
+                timeout=60)
                 response.raise_for_status()
                 cls.image_models = response.json()
                 if isinstance(cls.image_models, list):
@@ -93,8 +93,8 @@ class Airforce(AsyncGeneratorProvider, ProviderModelMixin):
                     f"{cls.url}/models",
                     headers={
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-                    }
-                )
+                    }, 
+                timeout=60)
                 response.raise_for_status()
                 data = response.json()
                 if isinstance(data, dict) and 'data' in data:

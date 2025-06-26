@@ -46,7 +46,7 @@ class HuggingChat(AsyncAuthedProvider, ProviderModelMixin):
     def get_models(cls):
         if not cls.models:
             try:
-                text = requests.get(cls.url).text
+                text = requests.get(cls.url, timeout=60).text
                 text = re.search(r'models:(\[.+?\]),oldModels:', text).group(1)
                 text = re.sub(r',parameters:{[^}]+?}', '', text)
                 text = text.replace('void 0', 'null')

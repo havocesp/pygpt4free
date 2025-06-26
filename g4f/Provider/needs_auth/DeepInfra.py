@@ -21,7 +21,7 @@ class DeepInfra(OpenaiTemplate):
     def get_models(cls, **kwargs):
         if not cls.models:
             url = 'https://api.deepinfra.com/models/featured'
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             models = response.json()
             
             cls.models = []
