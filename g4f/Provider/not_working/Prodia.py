@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from aiohttp import ClientSession
 import asyncio
-import random
 
 from ...typing import AsyncResult, Messages
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ...providers.response import ImageResponse
+import secrets
 
 class Prodia(AsyncGeneratorProvider, ProviderModelMixin):
     url = "https://app.prodia.com"
@@ -111,7 +111,7 @@ class Prodia(AsyncGeneratorProvider, ProviderModelMixin):
         model = cls.get_model(model)
         
         if seed is None:
-            seed = random.randint(0, 10000)
+            seed = secrets.SystemRandom().randint(0, 10000)
         
         headers = {
             "accept": "*/*",

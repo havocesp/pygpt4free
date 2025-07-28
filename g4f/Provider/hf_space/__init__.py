@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import random
-
 from ...typing import AsyncResult, Messages, ImagesType
 from ...errors import ResponseError
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
@@ -17,6 +15,7 @@ from .Qwen_Qwen_2_5M_Demo            import Qwen_Qwen_2_5M_Demo
 from .Qwen_Qwen_2_72B_Instruct       import Qwen_Qwen_2_72B_Instruct
 from .StableDiffusion35Large         import StableDiffusion35Large
 from .G4F                            import G4F
+import secrets
 
 class HuggingSpace(AsyncGeneratorProvider, ProviderModelMixin):
     url = "https://huggingface.co/spaces"
@@ -72,7 +71,7 @@ class HuggingSpace(AsyncGeneratorProvider, ProviderModelMixin):
         if not model and images is not None:
             model = cls.default_vision_model
         is_started = False
-        random.shuffle(cls.providers)
+        secrets.SystemRandom().shuffle(cls.providers)
         for provider in cls.providers:
             if model in provider.model_aliases:
                 async for chunk in provider.create_async_generator(provider.model_aliases[model], messages, images=images, **kwargs):

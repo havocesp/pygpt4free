@@ -4,7 +4,6 @@ import time
 from aiohttp import ClientSession, ClientTimeout
 import json
 import asyncio
-import random
 
 from ..typing import AsyncResult, Messages, Cookies
 from ..requests.raise_for_status import raise_for_status
@@ -12,6 +11,7 @@ from .base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from .helper import format_prompt
 from ..providers.response import FinishReason, JsonConversation
 from ..errors import ModelNotSupportedError, ResponseStatusError, RateLimitError, TimeoutError, ConversationLimitError
+import secrets
 
 class DuckDuckGoSearchException(Exception):
     """Base exception class for duckduckgo_search."""
@@ -90,7 +90,7 @@ class DDG(AsyncGeneratorProvider, ProviderModelMixin):
                     raise RuntimeError(f"Failed to fetch VQD token: {response.status} {response_text}")
             except ResponseStatusError as e:
                 if attempt < max_retries - 1:
-                    wait_time = random.uniform(1, 3) * (attempt + 1)
+                    wait_time = secrets.SystemRandom().uniform(1, 3) * (attempt + 1)
                     await asyncio.sleep(wait_time)
                 else:
                     raise RuntimeError(f"Failed to fetch VQD token after {max_retries} attempts: {str(e)}")

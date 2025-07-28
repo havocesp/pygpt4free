@@ -1,5 +1,4 @@
 import json
-import random
 import re
 import requests
 from aiohttp import ClientSession
@@ -11,6 +10,7 @@ from ...requests.raise_for_status import raise_for_status
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 
 from ... import debug
+import secrets
  
 def split_message(message: str, max_length: int = 1000) -> List[str]:
     """Splits the message into parts up to (max_length)."""
@@ -267,7 +267,7 @@ class Airforce(AsyncGeneratorProvider, ProviderModelMixin):
             if prompt is None:
                 prompt = messages[-1]['content']
             if seed is None:
-                seed = random.randint(0, 10000)
+                seed = secrets.SystemRandom().randint(0, 10000)
             async for result in cls.generate_image(model, prompt, size, seed, proxy):
                 yield result
         else:

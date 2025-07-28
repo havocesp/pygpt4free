@@ -3,7 +3,6 @@ from __future__ import annotations
 from aiohttp import ClientSession
 import re
 import json
-import random
 import string
 import base64
 from pathlib import Path
@@ -17,6 +16,7 @@ from ..cookies import get_cookies_dir
 from .helper import format_prompt, format_image_prompt
 from ..providers.response import JsonConversation, ImageResponse
 from ..errors import ModelNotSupportedError
+import secrets
 
 class Conversation(JsonConversation):
     validated_value: str = None
@@ -170,7 +170,7 @@ class Blackbox(AsyncGeneratorProvider, ProviderModelMixin):
     @classmethod
     def generate_id(cls, length: int = 7) -> str:
         chars = string.ascii_letters + string.digits
-        return ''.join(random.choice(chars) for _ in range(length))
+        return ''.join(secrets.choice(chars) for _ in range(length))
     
     @staticmethod
     def decrypt_data(encrypted_data):

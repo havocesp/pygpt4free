@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import base64
-import random
 import requests
 
 from ...typing import AsyncResult, Messages
@@ -13,6 +12,7 @@ from ...providers.response import FinishReason, ImageResponse
 from ..helper import format_image_prompt, get_last_user_message
 from .models import default_model, default_image_model, model_aliases, text_models, image_models, vision_models
 from ... import debug
+import secrets
 
 provider_together_urls = {
     "black-forest-labs/FLUX.1-dev": "https://router.huggingface.co/together/v1/images/generations",
@@ -129,7 +129,7 @@ class HuggingFaceInference(AsyncGeneratorProvider, ProviderModelMixin):
                 if pipeline_tag == "text-to-image":
                     stream = False
                     inputs = format_image_prompt(messages, prompt)
-                    payload = {"inputs": inputs, "parameters": {"seed": random.randint(0, 2**32) if seed is None else seed, **extra_data}}
+                    payload = {"inputs": inputs, "parameters": {"seed": secrets.SystemRandom().randint(0, 2**32) if seed is None else seed, **extra_data}}
                 elif pipeline_tag in ("text-generation", "image-text-to-text"):
                     model_type = None
                     if "config" in model_data and "model_type" in model_data["config"]:

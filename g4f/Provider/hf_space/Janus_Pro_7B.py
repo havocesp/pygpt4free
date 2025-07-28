@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import uuid
 import re
-import random
 from datetime import datetime, timezone, timedelta
 import urllib.parse
 
@@ -18,6 +17,7 @@ from ...cookies import get_cookies
 from ...errors import ResponseError
 from ... import debug
 from .raise_for_status import raise_for_status
+import secrets
 
 class Janus_Pro_7B(AsyncGeneratorProvider, ProviderModelMixin):
     space = "deepseek-ai/Janus-Pro-7B"
@@ -84,7 +84,7 @@ class Janus_Pro_7B(AsyncGeneratorProvider, ProviderModelMixin):
         prompt = format_prompt(messages) if prompt is None and conversation is None else prompt
         prompt = format_image_prompt(messages, prompt)
         if seed is None:
-            seed = random.randint(1000, 999999)
+            seed = secrets.SystemRandom().randint(1000, 999999)
 
         session_hash = uuid.uuid4().hex if conversation is None else getattr(conversation, "session_hash", uuid.uuid4().hex)
         async with StreamSession(proxy=proxy, impersonate="chrome") as session:
