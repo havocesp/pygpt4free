@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import base64
 import json
-import requests
 from typing import Optional
 from aiohttp import ClientSession, BaseConnector
 
@@ -14,6 +13,7 @@ from ...providers.response import Usage, FinishReason
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 from ..helper import get_connector
 from ... import debug
+from security import safe_requests
 
 class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
     label = "Google Gemini API"
@@ -41,7 +41,7 @@ class GeminiPro(AsyncGeneratorProvider, ProviderModelMixin):
         if not cls.models:
             try:
                 url = f"{cls.api_base if not api_base else api_base}/models"
-                response = requests.get(url, params={"key": api_key})
+                response = safe_requests.get(url, params={"key": api_key})
                 raise_for_status(response)
                 data = response.json()
                 cls.models = [

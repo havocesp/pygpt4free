@@ -1,7 +1,6 @@
 import json
 import random
 import re
-import requests
 from aiohttp import ClientSession
 from typing import List
 
@@ -11,6 +10,7 @@ from ...requests.raise_for_status import raise_for_status
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin
 
 from ... import debug
+from security import safe_requests
  
 def split_message(message: str, max_length: int = 1000) -> List[str]:
     """Splits the message into parts up to (max_length)."""
@@ -71,7 +71,7 @@ class Airforce(AsyncGeneratorProvider, ProviderModelMixin):
         """Get available models with error handling"""
         if not cls.image_models:
             try:
-                response = requests.get(
+                response = safe_requests.get(
                     f"{cls.url}/imagine2/models",
                     headers={
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
@@ -89,7 +89,7 @@ class Airforce(AsyncGeneratorProvider, ProviderModelMixin):
 
         if not cls.models:
             try:
-                response = requests.get(
+                response = safe_requests.get(
                     f"{cls.url}/models",
                     headers={
                         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",

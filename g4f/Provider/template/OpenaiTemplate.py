@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import requests
 
 from ..helper import filter_none, format_image_prompt
 from ..base_provider import AsyncGeneratorProvider, ProviderModelMixin, RaiseErrorMixin
@@ -11,6 +10,7 @@ from ...providers.response import FinishReason, ToolCalls, Usage, ImageResponse
 from ...errors import MissingAuthError, ResponseError
 from ...image import to_data_uri
 from ... import debug
+from security import safe_requests
 
 class OpenaiTemplate(AsyncGeneratorProvider, ProviderModelMixin, RaiseErrorMixin):
     api_base = ""
@@ -33,7 +33,7 @@ class OpenaiTemplate(AsyncGeneratorProvider, ProviderModelMixin, RaiseErrorMixin
                     api_key = cls.api_key
                 if api_key is not None:
                     headers["authorization"] = f"Bearer {api_key}"
-                response = requests.get(f"{api_base}/models", headers=headers, verify=cls.ssl)
+                response = safe_requests.get(f"{api_base}/models", headers=headers, verify=cls.ssl)
                 raise_for_status(response)
                 data = response.json()
                 data = data.get("data") if isinstance(data, dict) else data

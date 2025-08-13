@@ -1,6 +1,4 @@
 from __future__ import annotations
-
-import requests
 import json
 import base64
 from typing import Optional
@@ -12,6 +10,7 @@ from ...providers.response import FinishReason, ToolCalls, Usage
 from ...errors import MissingAuthError
 from ...image import to_bytes, is_accepted_format
 from .OpenaiAPI import OpenaiAPI
+from security import safe_requests
 
 class Anthropic(OpenaiAPI):
     label = "Anthropic API"
@@ -45,7 +44,7 @@ class Anthropic(OpenaiAPI):
     def get_models(cls, api_key: str = None, **kwargs):
         if not cls.models:
             url = f"https://api.anthropic.com/v1/models"
-            response = requests.get(url, headers={
+            response = safe_requests.get(url, headers={
                 "Content-Type": "application/json",
                 "x-api-key": api_key,
                 "anthropic-version": "2023-06-01"
